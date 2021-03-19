@@ -1,0 +1,10 @@
+PREP(aceInteractCondition);
+PREP(aceInteractStatement);
+PREP(designateEnd);
+PREP(designatePFH);
+PREP(designateStart);
+PREP(designateArm);
+//PREP(keyDownMomentary);
+//PREP(keyDownToggle);
+//PREP(keyUpMomentary);
+PREP(laserCanFire);
