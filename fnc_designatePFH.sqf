@@ -1,10 +1,22 @@
 #include "script_component.hpp"
 
 #ifdef DEBUG_MODE_FULL
-    if (isNil {GVAR(testObj2)}) then {
+    if (isNil {GVAR(testObj)}) then {
         GVAR(testObj) = "Sign_Sphere100cm_F" createVehicle [0,0,0];
     };
 #endif
+
+if(diag_tickTime % 50 == 0) then {
+    if(!GVAR(laserCanFire)) exitWith {
+        [] call FUNC(designateEnd);
+    };
+    if (player isIRLaserOn currentWeapon player) then {
+        player action ["IRLaserOff", player];
+    } else {
+        player action ["IRLaserOn", player];
+    };
+};
+
 
 GVAR(begPosASL) = ATLtoASL positionCameraToWorld [0,0,0];
 // attempt to use selection position, but there isn't one on the muzzle

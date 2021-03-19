@@ -1,4 +1,4 @@
-
+#include "script_component.hpp"
 /*
 if disarmed,
     arm
@@ -10,20 +10,22 @@ if disarmed,
 if armed,
     disarm
         return to normal IR laser operation
-
-
-
 */
 
 params ["_armed"];
 
 if (isNil "_armed") then {
-    GVAR(armed) = !GVAR(armed);
+    if(isNil {GVAR(armed)}) then {
+        GVAR(armed) = true;
+    } else {
+        GVAR(armed) = !(GVAR(armed));
+    };
 } else {
     GVAR(armed) = _armed;
 };
 
 if(GVAR(armed)) then {
+    systemChat "AN/PEQ-25 designator armed";
     if (!isNil {GVAR(displayEH)}) then {
         (findDisplay 46) displayRemoveEventHandler ["keyDown",GVAR(displayEH)];
     };
@@ -32,7 +34,10 @@ if(GVAR(armed)) then {
     GVAR(displayEH) = (findDisplay 46) displayAddEventHandler ["keyDown",{
         params ["_displayorcontrol", "_key", "_shift", "_ctrl", "_alt"];
         if(_key in (actionKeys "headlights")) then {
-            [] call FUNC(designateStart);
+            if(FUNC(laserCanFire)) then {
+                [] call FUNC(designateStart);
+            };
+            true
         };
     }];
     
@@ -41,9 +46,11 @@ if(GVAR(armed)) then {
         params ["_displayorcontrol", "_key", "_shift", "_ctrl", "_alt"];
         if(_key in (actionKeys "headlights")) then {
             [] call FUNC(designateEnd);
+            true
         };
     }];
 } else {
+    systemChat "AN/PEQ-25 designator disarmed";
     if (!isNil {GVAR(displayEH)}) then {
         (findDisplay 46) displayRemoveEventHandler ["keyDown",GVAR(displayEH)];
     };

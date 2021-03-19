@@ -1,5 +1,15 @@
 #include "script_component.hpp"
 
+if(!alive player) exitWith {
+    LOG("Player dead");
+    false
+};
+
+if(player getVariable ["ACE_isUnconscious",false]) exitWith {
+    LOG("Player is unconscious");
+    false
+};
+
 if (vehicle player != player) exitWith {
     LOG("Player in vehicle");
     false

@@ -5,5 +5,6 @@
     GVAR(testObj) = nil;
 #endif
 
+[GVAR(handle_designatePFH)] call CBA_fnc_removePerFrameHandler;
 deleteVehicle GVAR(laser);
 GVAR(laser) = nil;
