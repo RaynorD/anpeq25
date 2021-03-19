@@ -5,7 +5,7 @@ class CfgPatches {
         // Meta information for editor
         name = "AN/PEQ-25 Weapon Mounted Laser Designator";
         author = "Raynor";
-        url = "";
+        url = "https://github.com/RaynorD/anpeq25";
         
         // Minimum compatible version. When the game's version is lower, pop-up warning will appear when launching the game.
         requiredVersion = 1.98;
