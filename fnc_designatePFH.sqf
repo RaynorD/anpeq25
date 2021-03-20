@@ -1,54 +1,89 @@
 #include "script_component.hpp"
 
-#ifdef DEBUG_MODE_FULL
-    if (isNil {GVAR(testObj)}) then {
-        GVAR(testObj) = "Sign_Sphere100cm_F" createVehicle [0,0,0];
-    };
-#endif
-
-if(diag_tickTime % 50 == 0) then {
-    if(!GVAR(laserCanFire)) exitWith {
-        [] call FUNC(designateEnd);
-    };
-    if (player isIRLaserOn currentWeapon player) then {
-        player action ["IRLaserOff", player];
-    } else {
-        player action ["IRLaserOn", player];
-    };
+if (isNil {GVAR(testObj)} && DEBUG_MODE) then {
+    GVAR(testObj) = "Sign_Sphere100cm_F" createVehicle [0,0,0];
 };
 
+// emulate player only activating pressure switch when aiming the rifle
+//  kinda pointless now that the keybind is momentary, but meh
+private _pressure = (((animationState player) find "stp" >= 0 &&
+                    (animationState player) find "ras" >= 0 &&
+                    (animationState player) find "_a" < 0)
+                    ||
+                    (animationState player) find "pronebipod" >= 0);
 
-GVAR(begPosASL) = ATLtoASL positionCameraToWorld [0,0,0];
-// attempt to use selection position, but there isn't one on the muzzle
-//GVAR(begPosASL) = ATLtoASL (player modelToWorld (player selectionPosition ["proxy:\a3\characters_f\proxies\weapon.001","Memory"]));
+[_pressure] call FUNC(showLaserIcon);
 
-GVAR(endPosASL) = GVAR(begPosASL) vectorAdd ((player weaponDirection currentWeapon player) vectorMultiply 500);
-
-private _intersects = lineIntersectsSurfaces [GVAR(begPosASL), GVAR(endPosASL), player, objNull, true, 1, "PHYSX"];
-
-hint str _intersects;
-
-if (count _intersects == 0) exitWith {
-    deleteVehicle GVAR(laser);
-    GVAR(laser) = nil;
-};
-
-if (
-        ((animationState player) find "stp" >= 0 &&
-        (animationState player) find "ras" >= 0 &&
-        (animationState player) find "_a" < 0)
-        ||
-        (animationState player) find "pronebipod" >= 0
-) then {
-    //LaserTargetE
-    if (isNil {GVAR(laser)}) then {
-        GVAR(laser) = "LaserTargetE" createVehicle (_intersects#0#0);
+if(_pressure) then {
+    // fire/update IR laser
+    GVAR(deltaTimeIR) = GVAR(deltaTimeIR) + diag_deltaTime;
+    //systemChat str GVAR(deltaTime);
+    if(GVAR(deltaTimeIR) > IR_FLASH_DELAY) then {
+        if(GVAR(IRLaserOn)) then {
+            GVAR(IRLaserOn) = false;
+            player action ["IRLaserOff", player];
+        } else {
+            GVAR(IRLaserOn) = true;
+            player action ["IRLaserOn", player];
+        };
+        
+        /*
+        if(!GVAR(laserCanArm) || !GVAR(laserCanFire)) exitWith {
+            [] call FUNC(designateEnd);
+            
+            if (!GVAR(laserCanArm)) then {
+                [false] call FUNC(designateArm);
+            };
+        };
+        */
+        
+        GVAR(deltaTimeIR) = 0;
     };
-    #ifdef DEBUG_MODE_FULL
-        GVAR(testObj) setPosASL (_intersects#0#0);
-    #endif
-    GVAR(laser) setPosASL (_intersects#0#0);
+    
+    // fire/update designator
+    GVAR(deltaTimeLaser) = GVAR(deltaTimeLaser) + diag_deltaTime;
+    //systemChat str GVAR(deltaTime);
+    if(GVAR(deltaTimeLaser) > LASER_REFRESH_DELAY) then {
+        
+        //private _begPosASL = ATLtoASL positionCameraToWorld GVAR(cameraOffset);
+        private _begPosASL = ATLtoASL (player modelToWorld (player selectionPosition "rightshoulder"));
+        private _endPosASL = _begPosASL vectorAdd ((player weaponDirection currentWeapon player) vectorMultiply 500);
+        private _intersects = (lineIntersectsSurfaces [_begPosASL, _endPosASL, player, objNull, true, 1, "PHYSX"]);
+        
+        if (count _intersects == 0) exitWith {
+            if(DEBUG_MODE) then {
+                deleteVehicle GVAR(testObj);
+                GVAR(testObj) = nil;
+            };
+            deleteVehicle GVAR(laser);
+            GVAR(laser) = nil;
+        };
+        
+        private _intersectPos = _intersects#0#0;
+
+        //LaserTargetE
+        if (isNil {GVAR(laser)}) then {
+            GVAR(laser) = "LaserTargetE" createVehicle _intersectPos;
+        };
+        if(DEBUG_MODE) then {
+            GVAR(testObj) setPosASL _intersectPos;
+        };
+        GVAR(laser) setPosASL _intersectPos;
+        
+        GVAR(deltaTimeLaser) = 0;
+    };
 } else {
+    // turn off IR laser
+    GVAR(deltaTimeIR) = 0;
+    player action ["IRLaserOff", player];
+    
+    // turn off designator
+    GVAR(deltaTimeLaser) = 0;
     deleteVehicle GVAR(laser);
     GVAR(laser) = nil;
+    
+    if(DEBUG_MODE) then {
+        deleteVehicle GVAR(testObj);
+        GVAR(testObj) = nil;
+    };
 };

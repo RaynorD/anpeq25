@@ -3,17 +3,17 @@ class CfgVehicles {
     class CAManBase: Man {
         class ACE_SelfActions {
             class ACE_Equipment {
-                class RAYNOR_ANPEQ25 {
-                    displayName = "AN/PEQ-25 Laser Designator";
-                    condition = QUOTE([] call FUNC(aceInteractCondition));
-                    class DesignatorArm {
-                        displayName = "Arm Designator";
-                        statement = QUOTE([true] call FUNC(aceInteractStatement));
-                    };
-                    class DesignatorDisarm {
-                        displayName = "Disarm Designator";
-                        statement = QUOTE([false] call FUNC(aceInteractStatement));
-                    };
+                class raynor_anpeq25_arm {
+                    displayName = "Arm AN/PEQ-25 Designator";
+                    condition = QUOTE([true] call FUNC(aceInteractCondition));
+                    statement = QUOTE([true] call FUNC(aceInteractStatement));
+                    icon = "\A3\weapons_F\Data\UI\gear_accv_pointer_CA.paa";
+                };
+                class raynor_anpeq25_disarm {
+                    displayName = "Disarm AN/PEQ-25 Designator";
+                    condition = QUOTE([false] call FUNC(aceInteractCondition));
+                    statement = QUOTE([false] call FUNC(aceInteractStatement));
+                    icon = "\A3\weapons_F\Data\UI\gear_accv_pointer_CA.paa";
                 };
             };
         };

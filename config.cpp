@@ -1,5 +1,12 @@
 #include "script_component.hpp"
 
+/*
+    designateArm
+        designateStart
+            designatePressure?
+
+*/
+
 class CfgPatches {
     class ADDON {
         // Meta information for editor
@@ -22,3 +29,4 @@ class CfgPatches {
 #include "CfgEventhandlers.hpp"
 #include "CfgWeapons.hpp"
 #include "CfgVehicles.hpp"
+#include "dialogs.hpp"

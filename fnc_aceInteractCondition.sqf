@@ -1,3 +1,3 @@
 #include "script_component.hpp"
 
-POINTER_CLASSNAME in (player weaponAccessories (currentWeapon player))
+(call FUNC(laserMounted)) && (_this#0) isNotEqualTo GVAR(armed)
