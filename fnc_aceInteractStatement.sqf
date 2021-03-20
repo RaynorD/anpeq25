@@ -2,4 +2,4 @@
 
 params ["_arm"];
 
-[_arm] call FUNC(designateArm);
+[_arm,true] call FUNC(designateArm);

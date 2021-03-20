@@ -1,5 +1,8 @@
 #include "script_component.hpp"
 
+(alive player) && (count weaponsItems player > 0) && (call FUNC(aceInteractCondition)) && ("Laserbatteries" in magazines player)
+
+/*
 if(!alive player) exitWith {
     LOG("Can't Arm: Player dead");
     systemChat ("Can't Arm: Player dead");
@@ -25,3 +28,4 @@ if (!("Laserbatteries" in magazines player)) exitWith {
 };
 
 true
+*/

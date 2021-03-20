@@ -18,7 +18,7 @@ if armed,
 //P:\a3\ui_f\data\IGUI\Cfg\WeaponCursors\laserdesignator_gs.paa
 
 
-params [["_armedArg",nil]];
+params [["_armedArg",nil],["_manual",false]];
 
 _armed = nil;
 
@@ -37,7 +37,7 @@ if(_armed) then {
         GVAR(firing) = false;
         player action ["IRLaserOff", player];
         
-        systemChat "AN/PEQ-25 designator armed";
+        //systemChat "AN/PEQ-25 designator armed";
         if (!isNil {GVAR(displayEHDown)}) then {
             (findDisplay 46) displayRemoveEventHandler ["keyDown",GVAR(displayEHDown)];
         };
@@ -86,13 +86,21 @@ if(_armed) then {
         
         "raynor_anpeq25_iconDisplay" cutFadeOut 0;
         GVAR(armed) = true;
+        
+        if(_manual) then {
+            playSound "WeaponRestedOff";
+            if (!isNil "ace_common") then {
+                ["AN/PEQ-25 Designator Armed" ,"\x\raynor\addons\anpeq25\ui\anpeq25_arm.paa"] call ace_common_fnc_displayTextPicture
+            };
+        };
+        
     } else {
         LOG("The AN/PEQ-25 could not be armed");
         systemChat "The AN/PEQ-25 could not be armed";
         GVAR(armed) = false;
     };
 } else {
-    systemChat "AN/PEQ-25 designator disarmed";
+    //systemChat "AN/PEQ-25 designator disarmed";
     if (!isNil {GVAR(displayEHDown)}) then {
         (findDisplay 46) displayRemoveEventHandler ["keyDown",GVAR(displayEHDown)];
     };
@@ -105,6 +113,12 @@ if(_armed) then {
     [false] call FUNC(designateStart);
     GVAR(firing) = false;
     GVAR(armed) = false;
+    if(_manual) then {
+        playSound "WeaponRestedOff";
+        if (!isNil "ace_common") then {
+            ["AN/PEQ-25 Designator Disarmed" ,"\x\raynor\addons\anpeq25\ui\anpeq25_disarm.paa"] call ace_common_fnc_displayTextPicture
+        };
+    };
 };
 
 

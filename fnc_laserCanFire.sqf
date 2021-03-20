@@ -1,5 +1,8 @@
 #include "script_component.hpp"
 
+alive player && call FUNC(laserCanArm) && !(player getVariable ["ACE_isUnconscious",false]) && vehicle player == player
+
+/*
 if(!call FUNC(laserCanArm)) exitWith {
     false
 };
@@ -23,3 +26,4 @@ if (vehicle player != player) exitWith {
 };
 
 true
+*/
