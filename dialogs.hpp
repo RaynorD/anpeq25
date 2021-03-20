@@ -15,9 +15,9 @@ class RscTitles
         fadeIn = 0;
         fadeOut = 0;
         name = "raynor_anpeq25_iconDisplay";
-        //onLoad = "uiNamespace setVariable['raynor_anpeq25_iconDisplay',_this select 0]";
-        //onUnload = "uiNamespace setVariable['raynor_anpeq25_iconDisplay',displayNull]";
-        //onDestroy =  "uiNamespace setVariable['raynor_anpeq25_iconDisplay',displayNull]";
+        onLoad = "uiNamespace setVariable['raynor_anpeq25_iconDisplay',_this select 0]";
+        onUnload = "uiNamespace setVariable['raynor_anpeq25_iconDisplay',displayNull]";
+        onDestroy =  "uiNamespace setVariable['raynor_anpeq25_iconDisplay',displayNull]";
         
         class controls
         {

@@ -35,6 +35,18 @@ if (isNil "_armedArg") then {
 if(_armed) then {
     if ([true] call FUNC(laserCanArm)) then {
         GVAR(firing) = false;
+        GVAR(laserType) = switch (side player) do {
+            case (west): {
+                "LaserTargetW"
+            };
+            case (east): {
+                "LaserTargetE"
+            };
+            default {
+                "LaserTargetC"
+            };
+        };
+        
         player action ["IRLaserOff", player];
         
         //systemChat "AN/PEQ-25 designator armed";

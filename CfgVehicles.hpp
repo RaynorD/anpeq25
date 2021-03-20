@@ -21,6 +21,3 @@ class CfgVehicles {
         };
     };
 };
-
-
-//statement = "[_player,  true] call ace_hearing_fnc_putInEarPlugs";

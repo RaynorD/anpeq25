@@ -1,8 +1,12 @@
+disableSerialization;
+
 #include "script_component.hpp"
 
 if (isNil {GVAR(testObj)} && DEBUG_MODE) then {
     GVAR(testObj) = "Sign_Sphere100cm_F" createVehicle [0,0,0];
 };
+
+private _ctrlIcon = (uiNamespace getVariable "raynor_anpeq25_iconDisplay") displayCtrl 601;
 
 // emulate player only activating pressure switch when aiming the rifle
 //  kinda pointless now that the keybind is momentary, but meh
@@ -22,9 +26,11 @@ if(_pressure) then {
         if(GVAR(IRLaserOn)) then {
             GVAR(IRLaserOn) = false;
             player action ["IRLaserOff", player];
+            _ctrlIcon ctrlShow false;
         } else {
             GVAR(IRLaserOn) = true;
             player action ["IRLaserOn", player];
+            _ctrlIcon ctrlShow true;
         };
         
         /*
@@ -63,7 +69,7 @@ if(_pressure) then {
 
         //LaserTargetE
         if (isNil {GVAR(laser)}) then {
-            GVAR(laser) = "LaserTargetE" createVehicle _intersectPos;
+            GVAR(laser) = GVAR(laserType) createVehicle _intersectPos;
         };
         if(DEBUG_MODE) then {
             GVAR(testObj) setPosASL _intersectPos;
