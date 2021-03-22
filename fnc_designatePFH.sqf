@@ -1,3 +1,21 @@
+/*
+ * Author: Raynor
+ * Per frame handler for active designator
+ * Update lasertarget position and blink IR laser and UI element
+ *
+ * Arguments:
+ * 0: Arm state <BOOL>
+ * 1: Was manually triggered <BOOL>
+ *
+ * Return Value:
+ * None
+ *
+ * Example:
+ * [true,true] call raynor_anpeq25_fnc_designatePFH
+ *
+ * Public: No
+ */
+
 disableSerialization;
 
 #include "script_component.hpp"

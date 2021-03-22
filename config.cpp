@@ -1,10 +1,16 @@
 #include "script_component.hpp"
 
 /*
-    designateArm
-        designateStart
-            designatePressure?
+if disarmed,
+    arm
+        when armed, hold laser key to designate
+        when designating, laser flashes and laser target is created
+            when on terrain, laser target moves to aim point
+            when off terrain, laser target is deleted
 
+if armed,
+    disarm
+        return to normal IR laser operation
 */
 
 class CfgPatches {

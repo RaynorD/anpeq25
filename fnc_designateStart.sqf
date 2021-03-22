@@ -1,3 +1,19 @@
+/*
+ * Author: Raynor
+ * Start and stop designate
+ *
+ * Arguments:
+ * 0: State <BOOL>
+ *
+ * Return Value:
+ * None
+ *
+ * Example:
+ * [true] call raynor_anpeq25_fnc_designateStart
+ *
+ * Public: No
+ */
+
 #include "script_component.hpp"
 
 params ["_start"];

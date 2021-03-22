@@ -1,3 +1,19 @@
+/*
+ * Author: Raynor
+ * Check if conditions are met to fire laser designator
+ *
+ * Arguments:
+ * None
+ *
+ * Return Value:
+ * Can fire <BOOL>
+ *
+ * Example:
+ * [] call raynor_anpeq25_fnc_laserCanFire
+ *
+ * Public: No
+ */
+
 #include "script_component.hpp"
 
 alive player && call FUNC(laserCanArm) && !(player getVariable ["ACE_isUnconscious",false]) && vehicle player == player

@@ -1,22 +1,21 @@
-#include "script_component.hpp"
 /*
-if disarmed,
-    arm
-        when armed, hold L to designate
-        when designating, laser flashes and laser target is created
-            when on terrain, laser target moves to aim point
-            when off terrain, laser target is deleted/moved away?
+ * Author: Raynor
+ * Arm designator
+ *
+ * Arguments:
+ * 0: Arm state <BOOL>
+ * 1: Was manually triggered <BOOL>
+ *
+ * Return Value:
+ * None
+ *
+ * Example:
+ * [true,true] call raynor_anpeq25_fnc_designateArm
+ *
+ * Public: No
+ */
 
-if armed,
-    disarm
-        return to normal IR laser operation
-*/
-
-//P:\a3\ui_f\data\IGUI\RscIngameUI\RscOptics\laser_designator_iconLaserOn.paa
-//P:\a3\ui_f_curator\Data\CfgCurator\laser_ca.paa
-//P:\a3\ui_f\data\IGUI\RscCustomInfo\Sensors\Targets\LaserTarget_ca.paa
-//P:\a3\ui_f\data\IGUI\Cfg\WeaponCursors\laserdesignator_gs.paa
-
+#include "script_component.hpp"
 
 params [["_armedArg",nil],["_manual",false]];
 
@@ -132,24 +131,3 @@ if(_armed) then {
         };
     };
 };
-
-
-
-
-/*
-
-[{
-    if (player isIRLaserOn currentWeapon player) then {
-        GVAR(PFHon) = [{
-            params ["_args","_handle"];
-            if(player isIRLaserOn currentWeapon player) then {
-                call FUNC(pfh);
-            } else {
-                [_handle] call CBA_fnc_removePerFrameHandler;
-                call FUNC(hide);
-            };
-        }, 0, []] call CBA_fnc_addPerFrameHandler;
-    };
-}, [], 0.1] call CBA_fnc_waitAndExecute;
-
-*/
